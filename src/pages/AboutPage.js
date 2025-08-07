@@ -15,6 +15,10 @@ const AboutPage = () => {
         url="https://your-domain.com/about"
       />
       <div className="page-content">
+        <div className="code-snippet code-html">{"<html/>"}</div>
+        <div className="code-snippet code-body">{"<body>"}</div>
+        <div className="code-snippet code-h1">{"<h1>"}</div>
+        <div className="code-snippet code-p1">{`<p>Hi, I'm <span className="name-highlight">Topan Nurpana</span></p>`}</div>
         {isMobile ? (
           <Parallax y={[-15, 15]} className="parallax-title">
             <h2 className="page-title">About Me</h2>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Home, User, FileText, Briefcase, Mail } from "lucide-react";
+import { Home, User, FileText, Briefcase, Mail, Linkedin, Github } from "lucide-react";
 
 const Navigation = () => {
   const location = useLocation();
@@ -24,9 +24,16 @@ const Navigation = () => {
         </nav>
         
         <div className="social-icons">
-          <button className="social-icon" aria-label="LinkedIn">in</button>
-          <button className="social-icon" aria-label="GitHub">🐙</button>
-          <button className="social-icon" aria-label="Website">●</button>
+          <button className="" aria-label="LinkedIn">
+            <a href="https://www.linkedin.com/in/topan-nurpana/" target="_blank" rel="noopener noreferrer">
+              <Linkedin size={20} />
+            </a>
+          </button>
+          <button className="" aria-label="GitHub">
+            <a href="https://github.com/TopsNoers" target="_blank" rel="noopener noreferrer">
+              <Github size={20} />
+            </a>
+          </button>
         </div>
         
         <div className="scroll-indicator">

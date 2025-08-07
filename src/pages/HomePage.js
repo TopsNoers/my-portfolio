@@ -13,9 +13,19 @@ const HomePage = () => {
         title="Home"
         description="Hi, I'm Topan Nurpana - Software Developer specializing in web development, with experience in both backend and frontend technologies. Get in touch to discuss your next project."
         keywords="Topan Nurpana, software developer, web development, frontend, backend, React, JavaScript, portfolio"
-        url="https://your-domain.com/"
+        url="https://profile.topdevs.my.id/"
       />
       <div className="hero-content">
+        <div className="code-snippet code-html">{"<html/>"}</div>
+        <div className="code-snippet code-body">{"<body>"}</div>
+        <div className="code-snippet code-h1">{"<h1>"}</div>
+        <div className="code-snippet code-p1">{`<p>Hi, I'm <span className="name-highlight">Topan Nurpana</span></p>`}</div>
+        <div className="code-snippet code-p2">{`</p>`}</div>
+        <div className="code-snippet code-a">{`<a href='/contact'>Get in Touch</a>`}</div>
+        <div className="code-snippet code-a2">{`</a>`}</div>
+        <div className="code-snippet code-a3">{`</h1>`}</div>
+        <div className="code-snippet code-a4">{`</body>`}</div>
+        <div className="code-snippet code-a5">{`</html>`}</div>
         {isMobile ? (
           <Parallax y={[-20, 20]} className="parallax-hero">
             <h1 className="main-heading">

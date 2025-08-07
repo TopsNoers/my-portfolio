@@ -29,31 +29,210 @@ body {
   font-family: 'Courier New', monospace;
   z-index: 1;
   opacity: 0.6;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid transparent;
+  transition: all 0.3s ease;
 }
 
+.code-snippet.typing {
+  color: #00d4ff;
+  opacity: 0.8;
+  text-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
+}
+
+/* Typing animation for code snippets */
+.code-snippet.typing {
+  border-right: 2px solid #00d4ff;
+  animation: blink 1s infinite;
+  position: relative;
+}
+
+.code-snippet.typing::after {
+  content: '|';
+  color: #00d4ff;
+  animation: blink 1s infinite;
+  position: absolute;
+  right: -8px;
+  top: 0;
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+/* Staggered typing animations for each code snippet */
 .code-html {
   top: 10%;
-  left: 5%;
+  left: 2%;
+  animation: typeHtml 3s steps(6) 0s forwards;
 }
 
 .code-body {
   top: 15%;
-  left: 8%;
+  left: 4%;
+  animation: typeBody 3s steps(6) 0.5s forwards;
 }
 
 .code-h1 {
-  top: 45%;
-  left: 15%;
+  top: 25%;
+  left: 6%;
+  animation: typeH1 3s steps(4) 1s forwards;
 }
 
 .code-p1 {
-  top: 55%;
-  left: 20%;
+  top: 35%;
+  left: 8%;
+  animation: typeP1 4s steps(25) 1.5s forwards;
 }
 
 .code-p2 {
+  top: 45%;
+  left: 10%;
+  animation: typeP2 3s steps(4) 3s forwards;
+}
+
+.code-a {
+  top: 55%;
+  left: 12%;
+  animation: typeA 4s steps(20) 3.5s forwards;
+}
+
+.code-a2 {
   top: 65%;
-  left: 25%;
+  left: 14%;
+  animation: typeA2 3s steps(4) 5s forwards;
+}
+
+.code-a3 {
+  top: 75%;
+  left: 16%;
+  animation: typeA3 3s steps(4) 5.5s forwards;
+}
+
+.code-a4 {
+  top: 85%;
+  left: 18%;
+  animation: typeA4 3s steps(6) 6s forwards;
+}
+
+.code-a5 {
+  top: 95%;
+  left: 20%;
+  animation: typeA5 3s steps(7) 6.5s forwards;
+}
+
+/* Typing keyframes for each snippet */
+@keyframes typeHtml {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 6ch;
+  }
+}
+
+@keyframes typeBody {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 6ch;
+  }
+}
+
+@keyframes typeH1 {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 4ch;
+  }
+}
+
+@keyframes typeP1 {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 25ch;
+  }
+}
+
+@keyframes typeP2 {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 4ch;
+  }
+}
+
+@keyframes typeA {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 20ch;
+  }
+}
+
+@keyframes typeA2 {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 4ch;
+  }
+}
+
+@keyframes typeA3 {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 4ch;
+  }
+}
+
+@keyframes typeA4 {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 6ch;
+  }
+}
+
+@keyframes typeA5 {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 7ch;
+  }
+}
+
+/* Continuous typing effect after initial animation */
+.code-snippet.continuous-typing {
+  animation: continuousType 8s steps(40) 8s infinite;
+}
+
+@keyframes continuousType {
+  0%, 90% {
+    width: 0;
+  }
+  10%, 80% {
+    width: 40ch;
+  }
+  100% {
+    width: 0;
+  }
 }
 
 /* Sidebar */

@@ -27,14 +27,7 @@ export default function App() {
       <ParallaxProvider>
         <Router>
           <ScrollNavigationWrapper>
-            <div className="portfolio-container">
-              {/* Code snippets */}
-              <div className="code-snippet code-html">{"<html/>"}</div>
-              <div className="code-snippet code-body">{"<body>"}</div>
-              <div className="code-snippet code-h1">{"<h1>"}</div>
-              <div className="code-snippet code-p1">{"<p>"}</div>
-              <div className="code-snippet code-p2">{"</p>"}</div>
-              
+            <div className="portfolio-container">      
               {/* Navigation */}
               <Navigation />
 
