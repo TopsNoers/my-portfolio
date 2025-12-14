@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 export const useScrollNavigation = () => {
@@ -9,29 +9,30 @@ export const useScrollNavigation = () => {
   const [isEnabled, setIsEnabled] = useState(true);
 
   // Define the page order for navigation
-  const pages = [
+  const pages = useMemo(() => [
     { path: "/", name: "Home" },
     { path: "/about", name: "About" },
     { path: "/resume", name: "Resume" },
     { path: "/portfolio", name: "Portfolio" },
     { path: "/contact", name: "Contact" }
-  ];
+  ], []);
 
   // Get current page index
-  const getCurrentPageIndex = () => {
+  const getCurrentPageIndex = useCallback(() => {
     return pages.findIndex(page => page.path === location.pathname);
-  };
+  }, [pages, location.pathname]);
 
   // Check if current page has scrollable content
   const hasScrollableContent = () => {
     const mainContent = document.querySelector('.main-content');
     if (!mainContent) return false;
     
-    // Check if the content is scrollable
-    const isScrollable = mainContent.scrollHeight > mainContent.clientHeight;
-    const maxScrollTop = mainContent.scrollHeight - mainContent.clientHeight;
+    // Check if the content is scrollable with a small threshold to account for rounding
+    const scrollHeight = mainContent.scrollHeight;
+    const clientHeight = mainContent.clientHeight;
+    const isScrollable = scrollHeight > clientHeight + 1; // Add 1px threshold for rounding issues
     
-    return isScrollable && maxScrollTop > 0;
+    return isScrollable;
   };
 
   // Check if we should allow normal scrolling
@@ -40,17 +41,22 @@ export const useScrollNavigation = () => {
     if (!mainContent) return false;
     
     const currentScrollTop = mainContent.scrollTop;
-    const maxScrollTop = mainContent.scrollHeight - mainContent.clientHeight;
+    const scrollHeight = mainContent.scrollHeight;
+    const clientHeight = mainContent.clientHeight;
+    const maxScrollTop = scrollHeight - clientHeight;
+    
+    // If content is not scrollable, don't allow normal scroll
+    if (maxScrollTop <= 0) return false;
     
     // Allow normal scrolling if:
     // 1. Content is scrollable
     // 2. We're not at the boundaries (with a small buffer)
     if (deltaY > 0) {
       // Scrolling down - allow if not at bottom
-      return currentScrollTop < maxScrollTop - 5;
+      return currentScrollTop < maxScrollTop - 10;
     } else {
       // Scrolling up - allow if not at top
-      return currentScrollTop > 5;
+      return currentScrollTop > 10;
     }
   };
 
@@ -63,7 +69,7 @@ export const useScrollNavigation = () => {
     if (nextIndex !== currentIndex) {
       navigate(pages[nextIndex].path);
     }
-  }, [isEnabled, navigate, pages]);
+  }, [isEnabled, navigate, pages, getCurrentPageIndex]);
 
   // Navigate to previous page
   const goToPreviousPage = useCallback(() => {
@@ -74,13 +80,21 @@ export const useScrollNavigation = () => {
     if (prevIndex !== currentIndex) {
       navigate(pages[prevIndex].path);
     }
-  }, [isEnabled, navigate, pages]);
+  }, [isEnabled, navigate, pages, getCurrentPageIndex]);
 
   // Navigate to specific page
   const goToPage = useCallback((pageIndex) => {
     if (!isEnabled || pageIndex < 0 || pageIndex >= pages.length) return;
     navigate(pages[pageIndex].path);
   }, [isEnabled, navigate, pages]);
+
+  // Reset scroll position when route changes
+  useEffect(() => {
+    const mainContent = document.querySelector('.main-content');
+    if (mainContent) {
+      mainContent.scrollTop = 0;
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     const handleWheel = (event) => {
@@ -103,13 +117,18 @@ export const useScrollNavigation = () => {
       const mainContent = document.querySelector('.main-content');
       if (mainContent && hasScrollableContent()) {
         const currentScrollTop = mainContent.scrollTop;
-        const maxScrollTop = mainContent.scrollHeight - mainContent.clientHeight;
+        const scrollHeight = mainContent.scrollHeight;
+        const clientHeight = mainContent.clientHeight;
+        const maxScrollTop = scrollHeight - clientHeight;
         
-        if (deltaY > 0 && currentScrollTop < maxScrollTop - 5) {
+        // Use a larger threshold to prevent accidental navigation
+        const threshold = 10;
+        
+        if (deltaY > 0 && currentScrollTop < maxScrollTop - threshold) {
           // Not at bottom, allow normal scrolling
           return;
         }
-        if (deltaY < 0 && currentScrollTop > 5) {
+        if (deltaY < 0 && currentScrollTop > threshold) {
           // Not at top, allow normal scrolling
           return;
         }
@@ -152,13 +171,16 @@ export const useScrollNavigation = () => {
       const mainContent = document.querySelector('.main-content');
       if (mainContent && hasScrollableContent()) {
         const currentScrollTop = mainContent.scrollTop;
-        const maxScrollTop = mainContent.scrollHeight - mainContent.clientHeight;
+        const scrollHeight = mainContent.scrollHeight;
+        const clientHeight = mainContent.clientHeight;
+        const maxScrollTop = scrollHeight - clientHeight;
+        const threshold = 10;
         
-        if ((event.key === "ArrowDown" || event.key === "PageDown") && currentScrollTop < maxScrollTop) {
+        if ((event.key === "ArrowDown" || event.key === "PageDown") && currentScrollTop < maxScrollTop - threshold) {
           // Allow normal scrolling down
           return;
         }
-        if ((event.key === "ArrowUp" || event.key === "PageUp") && currentScrollTop > 0) {
+        if ((event.key === "ArrowUp" || event.key === "PageUp") && currentScrollTop > threshold) {
           // Allow normal scrolling up
           return;
         }
@@ -210,13 +232,16 @@ export const useScrollNavigation = () => {
         // Check if we should allow normal scrolling for touch
         if (mainContent && hasScrollableContent()) {
           const currentScrollTop = mainContent.scrollTop;
-          const maxScrollTop = mainContent.scrollHeight - mainContent.clientHeight;
+          const scrollHeight = mainContent.scrollHeight;
+          const clientHeight = mainContent.clientHeight;
+          const maxScrollTop = scrollHeight - clientHeight;
           const startScrollTop = event.target._touchStartScrollTop || 0;
+          const threshold = 10;
           
           // If the scroll position changed significantly during the touch, 
           // it means the user was scrolling content, not trying to navigate
           const scrollDelta = Math.abs(currentScrollTop - startScrollTop);
-          if (scrollDelta > 10) {
+          if (scrollDelta > threshold) {
             // User was scrolling content, don't navigate
             return;
           }
@@ -224,12 +249,12 @@ export const useScrollNavigation = () => {
           // Only navigate if we're at the boundaries
           if (deltaY > 0) {
             // Swipe up - only navigate if at bottom
-            if (currentScrollTop >= maxScrollTop - 5) {
+            if (currentScrollTop >= maxScrollTop - threshold) {
               goToNextPage();
             }
           } else {
             // Swipe down - only navigate if at top
-            if (currentScrollTop <= 5) {
+            if (currentScrollTop <= threshold) {
               goToPreviousPage();
             }
           }

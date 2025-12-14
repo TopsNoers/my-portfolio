@@ -10,7 +10,10 @@ body {
   background-color: #1a1a1a;
   color: white;
   overflow-x: hidden;
+  overflow-y: hidden;
   height: 100vh;
+  position: fixed;
+  width: 100%;
 }
 
 /* Portfolio Container */
@@ -347,8 +350,9 @@ body {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  min-height: 100vh;
+  overflow-x: hidden;
   height: 100vh;
+  -webkit-overflow-scrolling: touch;
 }
 
 .top-controls {
@@ -494,8 +498,8 @@ body {
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem 0;
-  overflow-y: auto;
   min-height: 100%;
+  width: 100%;
 }
 
 .page-title {
@@ -1129,6 +1133,8 @@ html {
     height: 100vh;
     padding-bottom: 100px;
     overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -1138,14 +1144,15 @@ html {
     padding-bottom: 90px;
     height: 100vh;
     overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
 .resume-page {
   padding: 1rem;
-  min-height: 100vh;
+  min-height: 100%;
   padding-bottom: 100px;
-  overflow-y: auto;
 }
   
 /* Scroll Navigation Styles */

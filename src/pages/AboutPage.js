@@ -10,9 +10,9 @@ const AboutPage = () => {
     <>
       <SEO 
         title="About"
-        description="Learn more about Topan Nurpana - a full-time and freelance web developer with 2 years of experience in full stack development, teaching, and creative work."
+        description="Learn more about Topan Nurpana - a full-time and freelance web developer with 3 years of experience in full stack development, teaching, and creative work."
         keywords="about Topan Nurpana, full stack developer, web developer, teaching assistant, photography, photo editing"
-        url="https://your-domain.com/about"
+        url="https://profile.topdevs.my.id/about"
       />
       <div className="page-content">
         <div className="code-snippet code-html">{"<html/>"}</div>

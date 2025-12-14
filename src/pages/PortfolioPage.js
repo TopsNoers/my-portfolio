@@ -50,6 +50,14 @@ const PortfolioPage = () => {
                 <h3>Sistem Informasi Manajemen Sekolah</h3>
                 <p>Sistem Informasi Manajemen Sekolah is a system that allows you to manage your school data.</p>
               </div>
+              <div className="portfolio-item">
+                <h3>Car Sales Information System</h3>
+                <p>Car Sales Information System is a system that allows you to manage your car sales data.</p>
+              </div>
+              <div className="portfolio-item">
+                <h3>CBT LMS School</h3>
+                <p>CBT LMS School is e-learning system that allows you to manage your school data.</p>
+              </div>
             </div>
           </Parallax>
         ) : (
